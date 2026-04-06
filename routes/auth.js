@@ -62,7 +62,7 @@ router.post(
 );
 
 //
-// ✅ REGISTER
+// ✅ REGISTER (FINAL FIXED VERSION)
 //
 router.post('/register', async (req, res) => {
   console.log("REGISTER HIT:", req.body);
@@ -70,6 +70,7 @@ router.post('/register', async (req, res) => {
   try {
     const { email, password, name, role } = req.body;
 
+    // basic validation
     if (!email || !password) {
       return res.status(400).json({ error: "Missing email or password" });
     }
@@ -82,15 +83,15 @@ router.post('/register', async (req, res) => {
     trialEnds.setDate(trialEnds.getDate() + 7);
 
     const result = await query(
-      `INSERT INTO users 
+      `INSERT INTO users
       (email, password, name, role, company_id, trial_ends_at, is_pro, is_active)
       VALUES ($1, $2, $3, $4, $5, $6, false, true)
       RETURNING *`,
       [
         email,
         hashedPassword,
-        name || null,
-        role || 'user',
+        name || 'User',   // ✅ prevents null crash
+        role || 'user',   // ✅ prevents null crash
         companyId,
         trialEnds
       ]
