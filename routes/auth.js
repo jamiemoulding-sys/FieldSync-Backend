@@ -1,4 +1,3 @@
-throw new Error("🔥 TEST ERROR - NEW CODE IS LIVE");
 console.log("🔥 REAL BACKEND VERSION");
 console.log('🔥 AUTH ROUTES LOADED');
 
