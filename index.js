@@ -4,28 +4,28 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
-// ROUTES
-const authRoutes = require('./routes/auth');
-const shiftRoutes = require('./routes/shifts');
-const taskRoutes = require('./routes/tasks');
-const locationRoutes = require('./routes/locations');
-const uploadRoutes = require('./routes/uploads');
-const assignmentRoutes = require('./routes/assignments');
-const userRoutes = require('./routes/users');
-const paymentRoutes = require('./routes/payments');
-const scheduleRoutes = require('./routes/schedules');
-const companyRoutes = require('./routes/companies');
-const invitesRoutes = require('./routes/invites');
-const reportRoutes = require('./routes/reports');
-const billingRoutes = require('./routes/billing');
-const performanceRoutes = require('./routes/performance'); // ✅ NEW
+// ROUTES (✅ FIXED PATHS)
+const authRoutes = require('./src/routes/auth');
+const shiftRoutes = require('./src/routes/shifts');
+const taskRoutes = require('./src/routes/tasks');
+const locationRoutes = require('./src/routes/locations');
+const uploadRoutes = require('./src/routes/uploads');
+const assignmentRoutes = require('./src/routes/assignments');
+const userRoutes = require('./src/routes/users');
+const paymentRoutes = require('./src/routes/payments');
+const scheduleRoutes = require('./src/routes/schedules');
+const companyRoutes = require('./src/routes/companies');
+const invitesRoutes = require('./src/routes/invites');
+const reportRoutes = require('./src/routes/reports');
+const billingRoutes = require('./src/routes/billing');
+const performanceRoutes = require('./src/routes/performance');
 
-const { authenticateToken } = require('./middleware/auth');
-const { initDatabase } = require('./database/init');
-const { query } = require('./database/connection');
+const { authenticateToken } = require('./src/middleware/auth');
+const { initDatabase } = require('./src/database/init');
+const { query } = require('./src/database/connection');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
 // =====================
 // MIDDLEWARE
@@ -37,7 +37,8 @@ app.use('/api/billing/webhook', express.raw({ type: 'application/json' }));
 app.use(cors());
 app.use(express.json());
 
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+// Static uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // =====================
 // ROUTES
@@ -56,7 +57,7 @@ app.use('/api/companies', companyRoutes);
 app.use('/api', invitesRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/billing', billingRoutes);
-app.use('/api/performance', performanceRoutes); // ✅ NEW
+app.use('/api/performance', performanceRoutes);
 
 // =====================
 // HEALTH CHECK
