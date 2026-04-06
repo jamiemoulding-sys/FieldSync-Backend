@@ -120,15 +120,14 @@ router.post('/register', async (req, res) => {
     return res.status(201).json({ token });
 
   } catch (error) {
-    console.log("💥 DB ERROR RAW:", error);
-    console.log("💥 DB ERROR MESSAGE:", error.message);
-    console.log("💥 DB ERROR STACK:", error.stack);
+  console.error("💥 REAL ERROR:", error);
 
-    return res.status(500).json({
-      error: error.message || "Unknown DB error",
-      stack: error.stack
-    });
-  }
+  return res.status(500).json({
+    error: "REAL_ERROR",
+    message: error.message,
+    stack: error.stack
+  });
+}
 });
 
 //
