@@ -68,9 +68,9 @@ router.post(
 router.post('/register', async (req, res) => {
   console.log("REGISTER HIT:", req.body);
 
-  try {
-    const { email, password, name, role } = req.body;
+  const { email, password, name, role } = req.body;
 
+  try {
     if (!email || !password) {
       return res.status(400).json({ error: "Missing email or password" });
     }
@@ -81,6 +81,8 @@ router.post('/register', async (req, res) => {
 
     const trialEnds = new Date();
     trialEnds.setDate(trialEnds.getDate() + 7);
+
+    console.log("🚀 ABOUT TO INSERT");
 
     const result = await query(
       `INSERT INTO users
@@ -96,6 +98,8 @@ router.post('/register', async (req, res) => {
         trialEnds
       ]
     );
+
+    console.log("✅ INSERT SUCCESS");
 
     const user = result.rows[0];
 
@@ -115,11 +119,13 @@ router.post('/register', async (req, res) => {
     return res.status(201).json({ token });
 
   } catch (error) {
-    console.error('REGISTER ERROR FULL:', error);
+    console.log("💥 DB ERROR RAW:", error);
+    console.log("💥 DB ERROR MESSAGE:", error.message);
+    console.log("💥 DB ERROR STACK:", error.stack);
 
     return res.status(500).json({
-      error: error.message,
-      detail: error
+      error: error.message || "Unknown DB error",
+      stack: error.stack
     });
   }
 });
