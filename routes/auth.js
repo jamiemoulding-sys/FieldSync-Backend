@@ -170,12 +170,10 @@ router.post('/apply-code', authenticateToken, async (req, res) => {
     res.json({ token });
 
   } catch (error) {
-    console.error('APPLY CODE ERROR:', error);
-    res.status(500).json({
-  error: "REAL_ERROR",
-  message: error.message
-});
-  }
+  console.error("💥 REAL ERROR:", error);
+
+  return res.status(500).send(error.message);
+}
 });
 
 module.exports = router;
