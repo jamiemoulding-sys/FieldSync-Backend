@@ -63,25 +63,14 @@ router.post(
 // ✅ REGISTER (SAFE VERSION)
 //
 router.post('/register', async (req, res) => {
-  console.log("🔥 REGISTER ROUTE HIT");
-
   try {
-    // 🔥 TEST DB CONNECTION ONLY
     const result = await query(`SELECT NOW()`);
-
-    return res.json({
-      message: "DB WORKS",
-      time: result.rows[0]
-    });
-
+    return res.json({ success: true, time: result.rows[0] });
   } catch (error) {
-    console.error("💥 DB CONNECTION ERROR:", error);
-
-    return res.status(500).json({
-      error: error.message
-    });
+    return res.status(500).json({ error: error.message });
   }
 });
+  
 
 //
 // ✅ APPLY ACCESS CODE

@@ -7,6 +7,14 @@ const pool = new Pool({
   },
 });
 
+pool.on('connect', () => {
+  console.log('✅ Connected to database');
+});
+
+pool.on('error', (err) => {
+  console.error('💥 DB ERROR:', err);
+});
+
 module.exports = {
   query: (text, params) => pool.query(text, params),
 };
